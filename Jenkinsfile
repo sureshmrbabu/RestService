@@ -12,10 +12,9 @@ try{
             branch: 'master'
      }
        stage('Build mvn') {
-           steps {
-               sh "mvn -version"
-               sh "mvn clean install"
-           }
+           sh "mvn -version"
+           sh "mvn clean install"
+
        }
       stage('Build docker') {
              dockerImage = docker.build("RestService-deploy:${env.BUILD_NUMBER}")
