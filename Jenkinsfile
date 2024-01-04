@@ -18,7 +18,9 @@ try{
       stage('Deploy docker'){
               echo "Docker Image Tag Name: ${dockerImageTag}"
               sh "docker stop RestService-deploy || true && docker rm RestService-deploy || true"
-              sh "docker run --name RestService-deploy -d -p 8081:8081 RestService-deploy:${env.BUILD_NUMBER} "
+              sh "docker run --name RestService-deploy -d -p 8081:8081   -v jenkins-data:/var/jenkins_home \
+                                                                         -v /var/run/docker.sock:/var/run/docker.sock \
+                                                                         -v $(which docker):/usr/bin/docker RestService-deploy:${env.BUILD_NUMBER} "
       }
 }catch(e){
     currentBuild.result = "FAILED"
